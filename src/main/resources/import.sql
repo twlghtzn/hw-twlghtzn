@@ -1,0 +1,1 @@
+INSERT INTO `homework`.`users` (`user_id`, `gbd_amount`, `password`, `username`) VALUES ('1', '200', '$2a$10$BDKhVEaUtZlioJNUtfJcKutupUYmEcP13811qETnaE4IdmY8gs/CW', 'bela');
