@@ -2,7 +2,8 @@ package com.greenfoxacademy.homeworktwlghtzn.users;
 
 import com.greenfoxacademy.homeworktwlghtzn.dtos.LoginRequest;
 import com.greenfoxacademy.homeworktwlghtzn.dtos.LoginResponse;
-import com.greenfoxacademy.homeworktwlghtzn.exceptionhandling.customexceptions.LoginRequestIncorrectException;
+import com.greenfoxacademy.homeworktwlghtzn.exceptionhandling.customexceptions.CredentialsNotValidException;
+import com.greenfoxacademy.homeworktwlghtzn.exceptionhandling.customexceptions.RequestIncorrectException;
 import com.greenfoxacademy.homeworktwlghtzn.security.JwtUtils;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,16 +45,16 @@ public class UserService {
     boolean passwordMissing = isPasswordMissing(loginRequest);
     if (usernameMissing || passwordMissing) {
       message = composeMessageForMissingFields(usernameMissing, passwordMissing);
-      throw new LoginRequestIncorrectException(message);
+      throw new RequestIncorrectException(message);
     } else {
       username = loginRequest.getUsername();
       password = loginRequest.getPassword();
       if (!isUsernameInDB(username)) {
         message = composeMessageForInvalidCredentials(false, false);
-        throw new LoginRequestIncorrectException(message);
+        throw new CredentialsNotValidException(message);
       } else if (!isPasswordCorrect(username, password)) {
         message = composeMessageForInvalidCredentials(true, false);
-        throw new LoginRequestIncorrectException(message);
+        throw new CredentialsNotValidException(message);
       }
     }
     String jwt = createVerificationToken(username, password);
@@ -83,13 +84,14 @@ public class UserService {
     return message.toString();
   }
 
-  public String composeMessageForInvalidCredentials(boolean usernameFound, boolean passwordCorrect) {
+  public String composeMessageForInvalidCredentials(boolean usernameFound,
+                                                    boolean passwordCorrect) {
     StringBuilder message = new StringBuilder();
-      if (!usernameFound) {
-        message.append("Username incorrect");
-      } else if (!passwordCorrect) {
-        message.append("Password incorrect");
-      }
+    if (!usernameFound) {
+      message.append("Username incorrect");
+    } else if (!passwordCorrect) {
+      message.append("Password incorrect");
+    }
     return message.toString();
   }
 

@@ -9,7 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 public class UserDetailsImpl implements UserDetails {
 
-  private long id;
+  private final long id;
 
   private final String username;
 
@@ -18,13 +18,15 @@ public class UserDetailsImpl implements UserDetails {
 
   private Collection<? extends GrantedAuthority> authorities;
 
-  public UserDetailsImpl(String username, String password) {
+  public UserDetailsImpl(long id, String username, String password) {
+    this.id = id;
     this.username = username;
     this.password = password;
   }
 
   public static UserDetailsImpl build(User user) {
     return new UserDetailsImpl(
+        user.getUserId(),
         user.getUsername(),
         user.getPassword());
   }
@@ -32,6 +34,10 @@ public class UserDetailsImpl implements UserDetails {
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
     return null;
+  }
+
+  public long getId() {
+    return id;
   }
 
   @Override

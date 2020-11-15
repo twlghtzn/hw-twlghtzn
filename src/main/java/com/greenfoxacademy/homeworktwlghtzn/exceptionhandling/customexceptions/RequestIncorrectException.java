@@ -3,11 +3,11 @@ package com.greenfoxacademy.homeworktwlghtzn.exceptionhandling.customexceptions;
 import lombok.Getter;
 
 @Getter
-public class LoginRequestIncorrectException extends RuntimeException {
+public class RequestIncorrectException extends RuntimeException {
 
   private final String message;
 
-  public LoginRequestIncorrectException(String message) {
+  public RequestIncorrectException(String message) {
     super();
     this.message = message;
   }

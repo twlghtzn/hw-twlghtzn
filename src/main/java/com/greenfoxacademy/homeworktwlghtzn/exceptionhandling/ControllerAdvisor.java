@@ -1,9 +1,13 @@
 package com.greenfoxacademy.homeworktwlghtzn.exceptionhandling;
 
 import com.fasterxml.jackson.core.JsonParseException;
-import com.greenfoxacademy.homeworktwlghtzn.exceptionhandling.customexceptions.LoginRequestIncorrectException;
+import com.greenfoxacademy.homeworktwlghtzn.exceptionhandling.customexceptions.CredentialsNotValidException;
+import com.greenfoxacademy.homeworktwlghtzn.exceptionhandling.customexceptions.RequestIncorrectException;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Set;
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,9 +23,34 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ControllerAdvice
 public class ControllerAdvisor extends ResponseEntityExceptionHandler {
 
-  @ExceptionHandler(LoginRequestIncorrectException.class)
-  protected ResponseEntity<Object> handleLoginRequestFieldMissingException(
-      LoginRequestIncorrectException ex) {
+  @ExceptionHandler(ConstraintViolationException.class)
+  protected ResponseEntity<Object> handleConstraintViolationException(
+      ConstraintViolationException ex) {
+    Set<ConstraintViolation<?>> violations = ex.getConstraintViolations();
+    String raw = violations.toString();
+    String message = "";
+    if (raw.contains("propertyPath=photoURL")) {
+      message = "photoURL must be a valid URL";
+    }
+    Map<String, Object> body = new LinkedHashMap<>();
+    body.put("message", message);
+
+    return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
+  }
+
+  @ExceptionHandler(RequestIncorrectException.class)
+  protected ResponseEntity<Object> handleRequestIncorrectException(
+      RequestIncorrectException ex) {
+    String message = ex.getMessage();
+    Map<String, Object> body = new LinkedHashMap<>();
+    body.put("message", message);
+
+    return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
+  }
+
+  @ExceptionHandler(CredentialsNotValidException.class)
+  protected ResponseEntity<Object> handleCredentialsNotValidException(
+      CredentialsNotValidException ex) {
     String message = ex.getMessage();
     Map<String, Object> body = new LinkedHashMap<>();
     body.put("message", message);
