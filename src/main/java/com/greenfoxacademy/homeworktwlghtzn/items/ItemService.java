@@ -30,9 +30,11 @@ public class ItemService {
       String photoUrl = createItemRequest.getPhotoUrl();
       int startingPrice = createItemRequest.getStartingPrice();
       int purchasingPrice = createItemRequest.getPurchasePrice();
+      if (startingPrice <= 0) {
+        throw new RequestIncorrectException("Starting price too low");
+      }
       if (purchasingPrice < startingPrice) {
-        String message = "Purchase price is lower than starting price";
-        throw new RequestIncorrectException(message);
+        throw new RequestIncorrectException("Purchase price is lower than starting price");
       }
       Date createdAt = new Date();
       itemRepository
