@@ -35,17 +35,19 @@ public class BidService {
     } else if (bidRequest.getBid() < item.getStartingPrice()) {
       throw new RequestIncorrectException("Bid is too low");
     } else if (item.getBids().size() > 0 &&
-        bidRequest.getBid() <= item.getBids().get(item.getBids().size() - 1).getBudget()) {
+        bidRequest.getBid() <= item.getBids().get(item.getBids().size() - 1).getSum()) {
       throw new RequestIncorrectException("Bid is too low");
     } else {
       long createdAt = System.currentTimeMillis();
       bidRepository.save(new Bid(user, bidRequest.getBid(), item, createdAt));
       List<Bid> bids = item.getBids();
       bids.add(bidRepository.findBidByCreatedAt(createdAt));
-      if (bidRequest.getBid() > item.getPurchasePrice()) {
+      if (bidRequest.getBid() >= item.getPurchasePrice()) {
         item.setBuyer(user.getUsername());
         item.setIsSellable(false);
         itemService.updateItem(item);
+        user.setGBDAmount(user.getGBDAmount() - bidRequest.getBid());
+        userService.updateUser(user);
       }
       return itemService.getSpecificItem(bidRequest.getItemId());
     }

@@ -108,4 +108,8 @@ public class UserService {
   public User getUserByUsername(String username) {
     return userRepository.findByUsername(username).get();
   }
+
+  public void updateUser(User user) {
+    userRepository.save(user);
+  }
 }

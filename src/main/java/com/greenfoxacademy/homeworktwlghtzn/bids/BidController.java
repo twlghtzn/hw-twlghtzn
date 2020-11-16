@@ -13,14 +13,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class BidController {
 
-  private BidService bidService;
-  private JwtUtils jwtUtils;
+  private final BidService bidService;
 
   @Autowired
-  public BidController(BidService bidService,
-                       JwtUtils jwtUtils) {
+  public BidController(BidService bidService) {
     this.bidService = bidService;
-    this.jwtUtils = jwtUtils;
   }
 
   @PostMapping("/bid")

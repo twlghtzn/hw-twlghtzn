@@ -27,8 +27,7 @@ public class Bid {
   private long bidId;
   @ManyToOne
   private User user;
-  @Column(name = "gdb_amount")
-  private int budget;
+  private int sum;
   @Column(name = "bid_created_at")
   @JsonIgnore
   private long createdAt;
@@ -40,9 +39,9 @@ public class Bid {
     createdAt = System.currentTimeMillis();
   }
 
-  public Bid(User user, int budget, Item item, long createdAt) {
+  public Bid(User user, int sum, Item item, long createdAt) {
     this.user = user;
-    this.budget = budget;
+    this.sum = sum;
     createdAt = System.currentTimeMillis();
     this.item = item;
     this.createdAt = createdAt;

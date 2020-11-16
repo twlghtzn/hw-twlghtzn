@@ -10,5 +10,5 @@ import lombok.Setter;
 public class BidDTO {
 
   private String username;
-  private int GBDAmount;
+  private int sum;
 }

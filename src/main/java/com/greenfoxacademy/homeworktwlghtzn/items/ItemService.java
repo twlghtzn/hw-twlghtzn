@@ -112,7 +112,7 @@ public class ItemService {
         if (item.getBids().size() != 0) {
           Bid lastBid = item.getBids().get(item.getBids().size() - 1);
           bidDTO.setUsername(lastBid.getUser());
-          bidDTO.setGBDAmount(lastBid.getBudget());
+          bidDTO.setSum(lastBid.getSum());
           itemDTO.setLastBid(bidDTO);
         }
         itemDTOs.add(itemDTO);
