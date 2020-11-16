@@ -7,7 +7,6 @@ import com.greenfoxacademy.homeworktwlghtzn.items.dtos.CreateItemRequest;
 import com.greenfoxacademy.homeworktwlghtzn.items.dtos.CreateItemResponse;
 import com.greenfoxacademy.homeworktwlghtzn.items.dtos.ItemDTO;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,7 +41,7 @@ public class ItemService {
       if (purchasingPrice < startingPrice) {
         throw new RequestIncorrectException("Purchase price is lower than starting price");
       }
-      Date createdAt = new Date();
+      long createdAt = System.currentTimeMillis();
       itemRepository
           .save(new Item(name, description, photoUrl, startingPrice, purchasingPrice, createdAt));
       return itemRepository.findByCreatedAt(createdAt);
@@ -104,7 +103,7 @@ public class ItemService {
     } else {
       int pageStart = (page - 1) * 2;
       int pageEnd = pageStart + 2;
-      List<Item> items = itemRepository.findAllItems(pageStart, pageEnd);
+      List<Item> items = itemRepository.findAllSellableItems(pageStart, pageEnd);
       for (Item item : items) {
         ItemDTO itemDTO = new ItemDTO();
         BidDTO bidDTO = new BidDTO();
@@ -112,8 +111,8 @@ public class ItemService {
         itemDTO.setPhotoURL(item.getPhotoURL());
         if (item.getBids().size() != 0) {
           Bid lastBid = item.getBids().get(item.getBids().size() - 1);
-          bidDTO.setUsername(lastBid.getUser().getUsername());
-          bidDTO.setGBDAmount(lastBid.getGBDAmount());
+          bidDTO.setUsername(lastBid.getUser());
+          bidDTO.setGBDAmount(lastBid.getBudget());
           itemDTO.setLastBid(bidDTO);
         }
         itemDTOs.add(itemDTO);
@@ -123,11 +122,15 @@ public class ItemService {
   }
 
   public Item getSpecificItem(Long id) {
-    Optional<Item> item = itemRepository.findById(id);
+    Optional<Item> item = itemRepository.findItemById(id);
     if (item.isPresent()) {
       return item.get();
     } else {
       throw new RequestIncorrectException("Item not found");
     }
+  }
+
+  public void updateItem(Item item) {
+    itemRepository.save(item);
   }
 }

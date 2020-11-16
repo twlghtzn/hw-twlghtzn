@@ -58,7 +58,7 @@ public class UserService {
       }
     }
     String jwt = createVerificationToken(username, password);
-    return new LoginResponse(jwt, 200);
+    return new LoginResponse(jwt, userRepository.findUserByUsername(username).getGBDAmount());
   }
 
   public boolean isUsernameMissing(LoginRequest loginRequest) {
@@ -103,5 +103,9 @@ public class UserService {
   public boolean isPasswordCorrect(String username, String password) {
     Optional<User> user = userRepository.findByUsername(username);
     return user.filter(value -> BCrypt.checkpw(password, value.getPassword())).isPresent();
+  }
+
+  public User getUserByUsername(String username) {
+    return userRepository.findByUsername(username).get();
   }
 }

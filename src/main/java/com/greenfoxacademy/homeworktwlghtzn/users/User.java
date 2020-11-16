@@ -18,6 +18,7 @@ import lombok.Setter;
 @Table(name = "users")
 public class User {
 
+  @JsonIgnore
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private long userId;
@@ -26,6 +27,7 @@ public class User {
   private String username;
   @JsonIgnore
   private String password;
+  @JsonIgnore
   @Column(name = "gbd_amount")
-  private int GBDAmount;
+  private Integer GBDAmount;
 }
