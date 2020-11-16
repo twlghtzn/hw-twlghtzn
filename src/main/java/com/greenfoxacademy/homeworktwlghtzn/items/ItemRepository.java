@@ -2,11 +2,17 @@ package com.greenfoxacademy.homeworktwlghtzn.items;
 
 import com.greenfoxacademy.homeworktwlghtzn.items.dtos.CreateItemResponse;
 import java.util.Date;
+import java.util.List;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 public interface ItemRepository extends CrudRepository<Item, Long> {
 
-  @Query(value = "SELECT item_id AS id, name, description, photo_url AS photoURL, starting_price AS startingPrice, purchase_price AS purchasePrice, is_sellable AS isSellable FROM items i WHERE i.created_at = :createdAt", nativeQuery = true)
+  @Query(value =
+      "SELECT id, name, description, photo_url AS photoURL, starting_price AS startingPrice, " +
+          "purchase_price AS purchasePrice, is_sellable AS isSellable FROM items i WHERE i.item_created_at = :createdAt", nativeQuery = true)
   CreateItemResponse findByCreatedAt(Date createdAt);
+
+  @Query(value = "SELECT * FROM items i WHERE i.is_sellable = 1 LIMIT :pageEnd OFFSET :pageStart", nativeQuery = true)
+  List<Item> findAllItems(int pageStart, int pageEnd);
 }

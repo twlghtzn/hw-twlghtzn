@@ -1,11 +1,15 @@
 package com.greenfoxacademy.homeworktwlghtzn.items;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.greenfoxacademy.homeworktwlghtzn.bids.Bid;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -26,6 +30,8 @@ public class Item {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @JsonIgnore
+  @Column(name = "id")
   private long itemId;
   @Column(length = 100)
   private String name;
@@ -34,13 +40,14 @@ public class Item {
   @Column(length = 100, name = "photo_url")
   @URL
   private String photoURL;
-  @Min(1)
   private Integer startingPrice;
-  @Min(1)
   private Integer purchasePrice;
-  @OneToMany
+  @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
   private List<Bid> bids;
+  @JsonIgnore
   private Boolean isSellable;
+  @JsonIgnore
+  @Column(name = "item_created_at")
   private Date createdAt;
 
   public Item() {

@@ -1,9 +1,9 @@
 package com.greenfoxacademy.homeworktwlghtzn.bids;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.greenfoxacademy.homeworktwlghtzn.items.Item;
 import com.greenfoxacademy.homeworktwlghtzn.users.User;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -23,27 +23,28 @@ public class Bid {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @JsonIgnore
   private long bidId;
   @ManyToOne
-  @JoinColumn(name = "user_name", referencedColumnName = "username")
+  @JoinColumn(name = "username", referencedColumnName = "username")
   private User user;
   @Column(name = "gdb_amount")
   private int GBDAmount;
-  private Date date;
+  @Column(name = "bid_created_at")
+  @JsonIgnore
+  private long createdAt;
+  @JsonIgnore
+  @ManyToOne(cascade = CascadeType.ALL)
+  @JoinColumn(name = "item_id", referencedColumnName = "id")
+  private Item item;
 
   public Bid() {
-    date = new Date();
+    createdAt = System.currentTimeMillis();
   }
 
   public Bid(User user, int GBDAmount) {
     this.user = user;
     this.GBDAmount = GBDAmount;
-    date = new Date();
-  }
-
-  @JsonProperty
-  public String getDate() {
-    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-    return formatter.format(date);
+    createdAt = System.currentTimeMillis();
   }
 }

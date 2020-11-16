@@ -1,11 +1,17 @@
 package com.greenfoxacademy.homeworktwlghtzn.items;
 
+import com.greenfoxacademy.homeworktwlghtzn.bids.Bid;
 import com.greenfoxacademy.homeworktwlghtzn.exceptionhandling.customexceptions.RequestIncorrectException;
+import com.greenfoxacademy.homeworktwlghtzn.items.dtos.BidDTO;
 import com.greenfoxacademy.homeworktwlghtzn.items.dtos.CreateItemRequest;
 import com.greenfoxacademy.homeworktwlghtzn.items.dtos.CreateItemResponse;
+import com.greenfoxacademy.homeworktwlghtzn.items.dtos.ItemDTO;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -89,5 +95,39 @@ public class ItemService {
     }
     message.delete(message.length() - 2, message.length());
     return message.toString();
+  }
+
+  public List<ItemDTO> listSellableItems(int page) {
+    List<ItemDTO> itemDTOs = new ArrayList<>();
+    if (page <= 0) {
+      throw new RequestIncorrectException("Page number has to be a positive whole number");
+    } else {
+      int pageStart = (page - 1) * 2;
+      int pageEnd = pageStart + 2;
+      List<Item> items = itemRepository.findAllItems(pageStart, pageEnd);
+      for (Item item : items) {
+        ItemDTO itemDTO = new ItemDTO();
+        BidDTO bidDTO = new BidDTO();
+        itemDTO.setName(item.getName());
+        itemDTO.setPhotoURL(item.getPhotoURL());
+        if (item.getBids().size() != 0) {
+          Bid lastBid = item.getBids().get(item.getBids().size() - 1);
+          bidDTO.setUsername(lastBid.getUser().getUsername());
+          bidDTO.setGBDAmount(lastBid.getGBDAmount());
+          itemDTO.setLastBid(bidDTO);
+        }
+        itemDTOs.add(itemDTO);
+      }
+    }
+    return itemDTOs;
+  }
+
+  public Item getSpecificItem(Long id) {
+    Optional<Item> item = itemRepository.findById(id);
+    if (item.isPresent()) {
+      return item.get();
+    } else {
+      throw new RequestIncorrectException("Item not found");
+    }
   }
 }
