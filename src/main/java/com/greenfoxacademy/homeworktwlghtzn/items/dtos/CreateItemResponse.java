@@ -8,11 +8,9 @@ public interface CreateItemResponse {
 
   String getDescription();
 
-  String getPhotoURL();
+  String getPhotoUrl();
 
   Integer getStartingPrice();
 
   Integer getPurchasePrice();
-
-  Boolean getIsSellable();
 }

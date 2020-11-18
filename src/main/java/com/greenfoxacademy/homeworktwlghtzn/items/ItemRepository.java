@@ -9,7 +9,7 @@ import org.springframework.data.repository.CrudRepository;
 public interface ItemRepository extends CrudRepository<Item, Long> {
 
   @Query(value =
-      "SELECT id, name, description, photo_url AS photoURL, starting_price AS startingPrice, " +
+      "SELECT id, name, description, photo_url AS photoUrl, starting_price AS startingPrice, " +
           "purchase_price AS purchasePrice, is_sellable AS isSellable FROM items i WHERE i.item_created_at = :createdAt", nativeQuery = true)
   CreateItemResponse findByCreatedAt(long createdAt);
 

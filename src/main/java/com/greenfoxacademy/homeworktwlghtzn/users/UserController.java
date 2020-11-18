@@ -1,7 +1,7 @@
 package com.greenfoxacademy.homeworktwlghtzn.users;
 
-import com.greenfoxacademy.homeworktwlghtzn.dtos.LoginRequest;
-import com.greenfoxacademy.homeworktwlghtzn.dtos.LoginResponse;
+import com.greenfoxacademy.homeworktwlghtzn.users.dtos.LoginRequest;
+import com.greenfoxacademy.homeworktwlghtzn.users.dtos.LoginResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

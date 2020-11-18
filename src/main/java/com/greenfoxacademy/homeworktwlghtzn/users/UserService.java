@@ -1,10 +1,10 @@
 package com.greenfoxacademy.homeworktwlghtzn.users;
 
-import com.greenfoxacademy.homeworktwlghtzn.dtos.LoginRequest;
-import com.greenfoxacademy.homeworktwlghtzn.dtos.LoginResponse;
 import com.greenfoxacademy.homeworktwlghtzn.exceptionhandling.customexceptions.CredentialsNotValidException;
 import com.greenfoxacademy.homeworktwlghtzn.exceptionhandling.customexceptions.RequestIncorrectException;
 import com.greenfoxacademy.homeworktwlghtzn.security.JwtUtils;
+import com.greenfoxacademy.homeworktwlghtzn.users.dtos.LoginRequest;
+import com.greenfoxacademy.homeworktwlghtzn.users.dtos.LoginResponse;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -38,9 +38,9 @@ public class UserService {
   }
 
   public LoginResponse logUserIn(LoginRequest loginRequest) {
-    String message = "";
-    String username = "";
-    String password = "";
+    String message;
+    String username;
+    String password;
     boolean usernameMissing = isUsernameMissing(loginRequest);
     boolean passwordMissing = isPasswordMissing(loginRequest);
     if (usernameMissing || passwordMissing) {
@@ -50,7 +50,7 @@ public class UserService {
       username = loginRequest.getUsername();
       password = loginRequest.getPassword();
       if (!isUsernameInDB(username)) {
-        message = composeMessageForInvalidCredentials(false, false);
+        message = composeMessageForInvalidCredentials(false, true);
         throw new CredentialsNotValidException(message);
       } else if (!isPasswordCorrect(username, password)) {
         message = composeMessageForInvalidCredentials(true, false);
@@ -58,7 +58,7 @@ public class UserService {
       }
     }
     String jwt = createVerificationToken(username, password);
-    return new LoginResponse(jwt, userRepository.findUserByUsername(username).getGBDAmount());
+    return new LoginResponse(jwt, userRepository.findUserByUsername(username).getAccount());
   }
 
   public boolean isUsernameMissing(LoginRequest loginRequest) {
@@ -106,7 +106,12 @@ public class UserService {
   }
 
   public User getUserByUsername(String username) {
-    return userRepository.findByUsername(username).get();
+    Optional<User> user = userRepository.findByUsername(username);
+    if (user.isPresent()) {
+      return user.get();
+    } else {
+      throw new RequestIncorrectException("User not found");
+    }
   }
 
   public void updateUser(User user) {

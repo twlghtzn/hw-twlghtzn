@@ -30,7 +30,7 @@ public class BidService {
     User user = userService.getUserByUsername(username);
     if (!item.getIsSellable()) {
       throw new RequestIncorrectException("Item can't be bought");
-    } else if (bidRequest.getBid() > user.getGBDAmount()) {
+    } else if (bidRequest.getBid() > user.getAccount()) {
       throw new RequestIncorrectException("You don't have enough money to place the bid");
     } else if (bidRequest.getBid() < item.getStartingPrice()) {
       throw new RequestIncorrectException("Bid is too low");
@@ -46,7 +46,7 @@ public class BidService {
         item.setBuyer(user.getUsername());
         item.setIsSellable(false);
         itemService.updateItem(item);
-        user.setGBDAmount(user.getGBDAmount() - bidRequest.getBid());
+        user.setAccount(user.getAccount() - bidRequest.getBid());
         userService.updateUser(user);
       }
       return itemService.getSpecificItem(bidRequest.getItemId());

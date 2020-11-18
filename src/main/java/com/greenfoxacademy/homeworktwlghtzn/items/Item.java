@@ -35,7 +35,7 @@ public class Item {
   private String description;
   @Column(length = 100, name = "photo_url")
   @URL
-  private String photoURL;
+  private String photoUrl;
   private Integer startingPrice;
   private Integer purchasePrice;
   @OneToMany(mappedBy = "item")
@@ -54,10 +54,23 @@ public class Item {
   }
 
   public Item(String name, String description,
-              @URL String photoURL, int startingPrice, int purchasePrice, long createdAt) {
+              @URL String photoUrl, int startingPrice, int purchasePrice, long createdAt) {
     this.name = name;
     this.description = description;
-    this.photoURL = photoURL;
+    this.photoUrl = photoUrl;
+    this.startingPrice = startingPrice;
+    this.purchasePrice = purchasePrice;
+    isSellable = true;
+    bids = new ArrayList<>();
+    this.createdAt = createdAt;
+  }
+
+  public Item(long itemId, String name, String description,
+              @URL String photoUrl, int startingPrice, int purchasePrice, long createdAt) {
+    this.itemId = itemId;
+    this.name = name;
+    this.description = description;
+    this.photoUrl = photoUrl;
     this.startingPrice = startingPrice;
     this.purchasePrice = purchasePrice;
     isSellable = true;

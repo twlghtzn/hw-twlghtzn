@@ -2,7 +2,8 @@ package com.greenfoxacademy.homeworktwlghtzn.items;
 
 import com.greenfoxacademy.homeworktwlghtzn.items.dtos.CreateItemRequest;
 import com.greenfoxacademy.homeworktwlghtzn.items.dtos.CreateItemResponse;
-import com.greenfoxacademy.homeworktwlghtzn.items.dtos.ItemDTO;
+import com.greenfoxacademy.homeworktwlghtzn.items.dtos.ItemDto;
+import com.greenfoxacademy.homeworktwlghtzn.items.dtos.ListItemDto;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,7 +31,7 @@ public class ItemController {
   }
 
   @GetMapping("/items/list")
-  public ResponseEntity<List<ItemDTO>> listItems(
+  public ResponseEntity<ListItemDto> listItems(
       @RequestParam(name = "page", required = false) Integer page) {
     int pageToLoad;
     if (page == null) {

@@ -8,10 +8,10 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class ItemDTO {
+public class ItemDto {
 
   private String name;
-  private String photoURL;
-  @JsonInclude(JsonInclude.Include. NON_NULL)
-  private BidDTO lastBid;
+  private String photoUrl;
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private BidDto lastBid;
 }

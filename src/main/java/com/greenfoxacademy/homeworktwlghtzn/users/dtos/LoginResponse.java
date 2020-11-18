@@ -1,4 +1,4 @@
-package com.greenfoxacademy.homeworktwlghtzn.dtos;
+package com.greenfoxacademy.homeworktwlghtzn.users.dtos;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,11 +11,11 @@ public class LoginResponse {
 
   private String token;
   private String tokenType;
-  private int GBDAmount;
+  private int account;
 
-  public LoginResponse(String token, int GBDAmount) {
+  public LoginResponse(String token, int account) {
     this.token = token;
-    this.GBDAmount = GBDAmount;
+    this.account = account;
     tokenType = "HW-token";
   }
 }

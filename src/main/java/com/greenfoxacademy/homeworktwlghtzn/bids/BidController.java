@@ -2,7 +2,6 @@ package com.greenfoxacademy.homeworktwlghtzn.bids;
 
 import com.greenfoxacademy.homeworktwlghtzn.bids.dtos.BidRequest;
 import com.greenfoxacademy.homeworktwlghtzn.items.Item;
-import com.greenfoxacademy.homeworktwlghtzn.security.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

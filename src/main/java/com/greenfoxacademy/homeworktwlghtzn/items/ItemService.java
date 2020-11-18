@@ -2,10 +2,11 @@ package com.greenfoxacademy.homeworktwlghtzn.items;
 
 import com.greenfoxacademy.homeworktwlghtzn.bids.Bid;
 import com.greenfoxacademy.homeworktwlghtzn.exceptionhandling.customexceptions.RequestIncorrectException;
-import com.greenfoxacademy.homeworktwlghtzn.items.dtos.BidDTO;
+import com.greenfoxacademy.homeworktwlghtzn.items.dtos.BidDto;
 import com.greenfoxacademy.homeworktwlghtzn.items.dtos.CreateItemRequest;
 import com.greenfoxacademy.homeworktwlghtzn.items.dtos.CreateItemResponse;
-import com.greenfoxacademy.homeworktwlghtzn.items.dtos.ItemDTO;
+import com.greenfoxacademy.homeworktwlghtzn.items.dtos.ItemDto;
+import com.greenfoxacademy.homeworktwlghtzn.items.dtos.ListItemDto;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -33,14 +34,24 @@ public class ItemService {
       String name = createItemRequest.getName();
       String description = createItemRequest.getDescription();
       String photoUrl = createItemRequest.getPhotoUrl();
-      int startingPrice = createItemRequest.getStartingPrice();
-      int purchasingPrice = createItemRequest.getPurchasePrice();
+      int startingPrice;
+      int purchasingPrice;
+      Float startingPriceL = createItemRequest.getStartingPrice();
+      Float purchasingPriceL = createItemRequest.getPurchasePrice();
+      if (startingPriceL % 1 != 0 || purchasingPriceL % 1 != 0) {
+        throw new RequestIncorrectException(
+            "Starting price and purchase price has to be a positive whole number");
+      } else {
+        startingPrice = startingPriceL.intValue();
+        purchasingPrice = purchasingPriceL.intValue();
+      }
       if (startingPrice <= 0) {
         throw new RequestIncorrectException("Starting price too low");
       }
       if (purchasingPrice < startingPrice) {
         throw new RequestIncorrectException("Purchase price is lower than starting price");
       }
+
       long createdAt = System.currentTimeMillis();
       itemRepository
           .save(new Item(name, description, photoUrl, startingPrice, purchasingPrice, createdAt));
@@ -84,7 +95,7 @@ public class ItemService {
       message.append("description, ");
     }
     if (!fieldCheck.get("hasPhotoUrl")) {
-      message.append("photo URL, ");
+      message.append("photoUrl, ");
     }
     if (!fieldCheck.get("hasStartingPrice")) {
       message.append("starting price, ");
@@ -96,8 +107,9 @@ public class ItemService {
     return message.toString();
   }
 
-  public List<ItemDTO> listSellableItems(int page) {
-    List<ItemDTO> itemDTOs = new ArrayList<>();
+  public ListItemDto listSellableItems(int page) {
+    ListItemDto listItemDtos = new ListItemDto();
+    List<ItemDto> itemDtos = new ArrayList<>();
     if (page <= 0) {
       throw new RequestIncorrectException("Page number has to be a positive whole number");
     } else {
@@ -105,20 +117,21 @@ public class ItemService {
       int pageEnd = pageStart + 2;
       List<Item> items = itemRepository.findAllSellableItems(pageStart, pageEnd);
       for (Item item : items) {
-        ItemDTO itemDTO = new ItemDTO();
-        BidDTO bidDTO = new BidDTO();
+        ItemDto itemDTO = new ItemDto();
+        BidDto bidDTO = new BidDto();
         itemDTO.setName(item.getName());
-        itemDTO.setPhotoURL(item.getPhotoURL());
+        itemDTO.setPhotoUrl(item.getPhotoUrl());
         if (item.getBids().size() != 0) {
           Bid lastBid = item.getBids().get(item.getBids().size() - 1);
           bidDTO.setUsername(lastBid.getUser());
           bidDTO.setSum(lastBid.getSum());
           itemDTO.setLastBid(bidDTO);
         }
-        itemDTOs.add(itemDTO);
+        itemDtos.add(itemDTO);
       }
+      listItemDtos.setItems(itemDtos);
     }
-    return itemDTOs;
+    return listItemDtos;
   }
 
   public Item getSpecificItem(Long id) {

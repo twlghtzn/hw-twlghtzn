@@ -18,10 +18,21 @@ import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 @ControllerAdvice
 public class ControllerAdvisor extends ResponseEntityExceptionHandler {
+
+  @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+  protected ResponseEntity<Object> handleMethodArgumentTypeMismatchException(
+      MethodArgumentTypeMismatchException ex) {
+    String message = "Page number has to be a positive whole number";
+    Map<String, Object> body = new LinkedHashMap<>();
+    body.put("message", message);
+
+    return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
+  }
 
   @ExceptionHandler(ConstraintViolationException.class)
   protected ResponseEntity<Object> handleConstraintViolationException(
@@ -29,7 +40,7 @@ public class ControllerAdvisor extends ResponseEntityExceptionHandler {
     Set<ConstraintViolation<?>> violations = ex.getConstraintViolations();
     String raw = violations.toString();
     String message = "";
-    if (raw.contains("propertyPath=photoURL")) {
+    if (raw.contains("propertyPath=photoUrl")) {
       message = "photoURL must be a valid URL";
     }
     Map<String, Object> body = new LinkedHashMap<>();

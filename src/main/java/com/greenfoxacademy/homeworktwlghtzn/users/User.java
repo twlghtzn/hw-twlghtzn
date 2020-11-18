@@ -28,6 +28,6 @@ public class User {
   @JsonIgnore
   private String password;
   @JsonIgnore
-  @Column(name = "gbd_amount")
-  private Integer GBDAmount;
+  @Column(name = "account")
+  private Integer account;
 }

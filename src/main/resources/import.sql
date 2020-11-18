@@ -1,1 +1,4 @@
-INSERT INTO `homework`.`users` (`user_id`, `gbd_amount`, `password`, `username`) VALUES ('1', '200', '$2a$10$BDKhVEaUtZlioJNUtfJcKutupUYmEcP13811qETnaE4IdmY8gs/CW', 'bela');
+INSERT INTO `homework`.`users` (`user_id`, `account`, `password`, `username`) VALUES ('1', '200', '$2a$10$BDKhVEaUtZlioJNUtfJcKutupUYmEcP13811qETnaE4IdmY8gs/CW', 'bela');
+INSERT INTO `homework`.`users` (`user_id`, `account`, `password`, `username`) VALUES ('2', '150', '$2a$10$UMEC8Fal3lDrF4dj9.Rvb.JeyBf2WrYkmOgkqV/Pm4QY6QrTyR2tO', 'testUser1');
+INSERT INTO `homework`.`users` (`user_id`, `account`, `password`, `username`) VALUES ('3', '0', '$2a$10$eQgggQq7Ie4UIlH3io2HHeyHAVxcGnXybaUhtH8P65Z4BFTEP93Ri', 'testUser2');
+INSERT INTO `homework`.`users` (`user_id`, `account`, `password`, `username`) VALUES ('4', '50', '$2a$10$sBZvoe1be2jxbUe8R73XD.PF5Acoolr1moV.yU7CiNjAJjyO7NguC', 'testUser3');
