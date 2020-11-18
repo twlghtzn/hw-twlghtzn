@@ -105,8 +105,8 @@ public class UserService {
     return user.filter(value -> BCrypt.checkpw(password, value.getPassword())).isPresent();
   }
 
-  public User getUserByUsername(String username) {
-    Optional<User> user = userRepository.findByUsername(username);
+  public User getUserByUserId(long userId) {
+    Optional<User> user = userRepository.findById(userId);
     if (user.isPresent()) {
       return user.get();
     } else {

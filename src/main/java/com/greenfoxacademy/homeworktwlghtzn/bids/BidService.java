@@ -25,9 +25,9 @@ public class BidService {
     this.userService = userService;
   }
 
-  public Item placeBid(BidRequest bidRequest, String username) {
+  public Item placeBid(BidRequest bidRequest, long userId) {
     Item item = itemService.getSpecificItem(bidRequest.getItemId());
-    User user = userService.getUserByUsername(username);
+    User user = userService.getUserByUserId(userId);
     if (!item.getIsSellable()) {
       throw new RequestIncorrectException("Item can't be bought");
     } else if (bidRequest.getBid() > user.getAccount()) {

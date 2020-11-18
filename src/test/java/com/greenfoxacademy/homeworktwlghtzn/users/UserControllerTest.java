@@ -30,6 +30,14 @@ public class UserControllerTest {
   @Autowired
   private UserRepository userRepository;
 
+  public void addUser() {
+    User user = new User();
+    user.setUsername("testUser1");
+    user.setPassword("$2a$10$UMEC8Fal3lDrF4dj9.Rvb.JeyBf2WrYkmOgkqV/Pm4QY6QrTyR2tO");
+    user.setAccount(200);
+    userRepository.save(user);
+  }
+
   private final MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType()
       , MediaType.APPLICATION_JSON.getSubtype(), StandardCharsets.UTF_8);
 
@@ -97,11 +105,7 @@ public class UserControllerTest {
   public void givenAUserInDB_whenLoginWithIncorrectUsername_StatusIsUnauthorizedAndAdequateMessage()
       throws Exception {
 
-    User user = new User();
-    user.setUsername("testUser1");
-    user.setPassword("$2a$10$UMEC8Fal3lDrF4dj9.Rvb.JeyBf2WrYkmOgkqV/Pm4QY6QrTyR2tO");
-    user.setAccount(200);
-    userRepository.save(user);
+    addUser();
 
     ObjectMapper objectMapper = new ObjectMapper();
 
@@ -119,11 +123,7 @@ public class UserControllerTest {
   public void givenAUserInDB_whenLoginWithIncorrectPassword_StatusIsUnauthorizedAndAdequateMessage()
       throws Exception {
 
-    User user = new User();
-    user.setUsername("testUser1");
-    user.setPassword("$2a$10$UMEC8Fal3lDrF4dj9.Rvb.JeyBf2WrYkmOgkqV/Pm4QY6QrTyR2tO");
-    user.setAccount(200);
-    userRepository.save(user);
+    addUser();
 
     ObjectMapper objectMapper = new ObjectMapper();
 
@@ -141,11 +141,7 @@ public class UserControllerTest {
   public void givenAUserInDB_whenLoginWithValidCredentials_StatusIsOkAndTokenAndGBDAmountIsReturned()
       throws Exception {
 
-    User user = new User();
-    user.setUsername("testUser1");
-    user.setPassword("$2a$10$UMEC8Fal3lDrF4dj9.Rvb.JeyBf2WrYkmOgkqV/Pm4QY6QrTyR2tO");
-    user.setAccount(200);
-    userRepository.save(user);
+    addUser();
 
     ObjectMapper objectMapper = new ObjectMapper();
 

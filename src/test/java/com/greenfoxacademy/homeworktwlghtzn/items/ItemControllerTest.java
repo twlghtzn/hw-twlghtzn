@@ -43,6 +43,30 @@ public class ItemControllerTest {
   private final MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType()
       , MediaType.APPLICATION_JSON.getSubtype(), StandardCharsets.UTF_8);
 
+  public void addUser() {
+    User user = new User();
+    user.setUsername("testUser1");
+    user.setPassword("$2a$10$UMEC8Fal3lDrF4dj9.Rvb.JeyBf2WrYkmOgkqV/Pm4QY6QrTyR2tO");
+    user.setAccount(200);
+    userRepository.save(user);
+  }
+
+  public void addItems() {
+    Item item1 = new Item(1L, "testItem1", "testDescription1", "https://testURL1", 20, 30,
+        System.currentTimeMillis());
+    itemRepository.save(item1);
+    Item item2 = new Item(2L, "testItem2", "testDescription2", "https://testURL2", 20, 30,
+        System.currentTimeMillis());
+    itemRepository.save(item2);
+    Item item3 = new Item(3L, "testItem3", "testDescription3", "https://testURL3", 20, 30,
+        System.currentTimeMillis());
+    itemRepository.save(item3);
+    Item item4 = new Item(4L, "testItem4", "testDescription4", "https://testURL4", 20, 30,
+        System.currentTimeMillis());
+    itemRepository.save(item4);
+  }
+
+
   //region create item
 
   @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
@@ -506,20 +530,8 @@ public class ItemControllerTest {
 
     //region setup
 
-    User user = new User();
-    user.setUsername("testUser1");
-    user.setPassword("$2a$10$UMEC8Fal3lDrF4dj9.Rvb.JeyBf2WrYkmOgkqV/Pm4QY6QrTyR2tO");
-    user.setAccount(200);
-    userRepository.save(user);
-
-    Item item1 = new Item(1L, "testItem1", "testDescription1", "https://testURL1", 20, 30, System.currentTimeMillis());
-    itemRepository.save(item1);
-    Item item2 = new Item(2L, "testItem2", "testDescription2", "https://testURL2", 20, 30, System.currentTimeMillis());
-    itemRepository.save(item2);
-    Item item3 = new Item(3L, "testItem3", "testDescription3", "https://testURL3", 20, 30, System.currentTimeMillis());
-    itemRepository.save(item3);
-    Item item4 = new Item(4L, "testItem4", "testDescription4", "https://testURL4", 20, 30, System.currentTimeMillis());
-    itemRepository.save(item4);
+    addUser();
+    addItems();
 
     ObjectMapper objectMapper = new ObjectMapper();
 
@@ -564,20 +576,8 @@ public class ItemControllerTest {
 
     //region setup
 
-    User user = new User();
-    user.setUsername("testUser1");
-    user.setPassword("$2a$10$UMEC8Fal3lDrF4dj9.Rvb.JeyBf2WrYkmOgkqV/Pm4QY6QrTyR2tO");
-    user.setAccount(200);
-    userRepository.save(user);
-
-    Item item1 = new Item(1L, "testItem1", "testDescription1", "https://testURL1", 20, 30, System.currentTimeMillis());
-    itemRepository.save(item1);
-    Item item2 = new Item(2L, "testItem2", "testDescription2", "https://testURL2", 20, 30, System.currentTimeMillis());
-    itemRepository.save(item2);
-    Item item3 = new Item(3L, "testItem3", "testDescription3", "https://testURL3", 20, 30, System.currentTimeMillis());
-    itemRepository.save(item3);
-    Item item4 = new Item(4L, "testItem4", "testDescription4", "https://testURL4", 20, 30, System.currentTimeMillis());
-    itemRepository.save(item4);
+    addUser();
+    addItems();
 
     ObjectMapper objectMapper = new ObjectMapper();
 
@@ -623,20 +623,8 @@ public class ItemControllerTest {
 
     //region setup
 
-    User user = new User();
-    user.setUsername("testUser1");
-    user.setPassword("$2a$10$UMEC8Fal3lDrF4dj9.Rvb.JeyBf2WrYkmOgkqV/Pm4QY6QrTyR2tO");
-    user.setAccount(200);
-    userRepository.save(user);
-
-    Item item1 = new Item(1L, "testItem1", "testDescription1", "https://testURL1", 20, 30, System.currentTimeMillis());
-    itemRepository.save(item1);
-    Item item2 = new Item(2L, "testItem2", "testDescription2", "https://testURL2", 20, 30, System.currentTimeMillis());
-    itemRepository.save(item2);
-    Item item3 = new Item(3L, "testItem3", "testDescription3", "https://testURL3", 20, 30, System.currentTimeMillis());
-    itemRepository.save(item3);
-    Item item4 = new Item(4L, "testItem4", "testDescription4", "https://testURL4", 20, 30, System.currentTimeMillis());
-    itemRepository.save(item4);
+    addUser();
+    addItems();
 
     ObjectMapper objectMapper = new ObjectMapper();
 
@@ -679,11 +667,7 @@ public class ItemControllerTest {
 
     //region setup
 
-    User user = new User();
-    user.setUsername("testUser1");
-    user.setPassword("$2a$10$UMEC8Fal3lDrF4dj9.Rvb.JeyBf2WrYkmOgkqV/Pm4QY6QrTyR2tO");
-    user.setAccount(200);
-    userRepository.save(user);
+    addUser();
 
     ObjectMapper objectMapper = new ObjectMapper();
 
@@ -718,11 +702,7 @@ public class ItemControllerTest {
 
     //region setup
 
-    User user = new User();
-    user.setUsername("testUser1");
-    user.setPassword("$2a$10$UMEC8Fal3lDrF4dj9.Rvb.JeyBf2WrYkmOgkqV/Pm4QY6QrTyR2tO");
-    user.setAccount(200);
-    userRepository.save(user);
+    addUser();
 
     ObjectMapper objectMapper = new ObjectMapper();
 
@@ -768,11 +748,7 @@ public class ItemControllerTest {
 
     //region setup
 
-    User user = new User();
-    user.setUsername("testUser1");
-    user.setPassword("$2a$10$UMEC8Fal3lDrF4dj9.Rvb.JeyBf2WrYkmOgkqV/Pm4QY6QrTyR2tO");
-    user.setAccount(200);
-    userRepository.save(user);
+    addUser();
 
     ObjectMapper objectMapper = new ObjectMapper();
 
@@ -829,11 +805,7 @@ public class ItemControllerTest {
 
     //region setup
 
-    User user = new User();
-    user.setUsername("testUser1");
-    user.setPassword("$2a$10$UMEC8Fal3lDrF4dj9.Rvb.JeyBf2WrYkmOgkqV/Pm4QY6QrTyR2tO");
-    user.setAccount(200);
-    userRepository.save(user);
+    addUser();
 
     ObjectMapper objectMapper = new ObjectMapper();
 
