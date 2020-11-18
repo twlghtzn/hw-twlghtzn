@@ -43,6 +43,8 @@ public class ItemControllerTest {
   private final MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType()
       , MediaType.APPLICATION_JSON.getSubtype(), StandardCharsets.UTF_8);
 
+  //region setup
+
   public void addUser() {
     User user = new User();
     user.setUsername("testUser1");
@@ -66,19 +68,16 @@ public class ItemControllerTest {
     itemRepository.save(item4);
   }
 
+  //endregion
 
   //region create item
 
   @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
   @Test
-  public void givenAUser_whenCreateItemWithMissingName_statusIsBadRequestAndAdequateMessage()
+  public void givenAUser_whenCreateItemWithMissingName_expectStatusIsBadRequestAndAdequateMessage()
       throws Exception {
 
-    User user = new User();
-    user.setUsername("testUser1");
-    user.setPassword("$2a$10$UMEC8Fal3lDrF4dj9.Rvb.JeyBf2WrYkmOgkqV/Pm4QY6QrTyR2tO");
-    user.setAccount(200);
-    userRepository.save(user);
+    addUser();
 
     ObjectMapper objectMapper = new ObjectMapper();
 
@@ -105,14 +104,10 @@ public class ItemControllerTest {
 
   @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
   @Test
-  public void givenAUser_whenCreateItemWithMissingDescription_statusIsBadRequestAndAdequateMessage()
+  public void givenAUser_whenCreateItemWithMissingDescription_expectStatusIsBadRequestAndAdequateMessage()
       throws Exception {
 
-    User user = new User();
-    user.setUsername("testUser1");
-    user.setPassword("$2a$10$UMEC8Fal3lDrF4dj9.Rvb.JeyBf2WrYkmOgkqV/Pm4QY6QrTyR2tO");
-    user.setAccount(200);
-    userRepository.save(user);
+    addUser();
 
     ObjectMapper objectMapper = new ObjectMapper();
 
@@ -139,14 +134,10 @@ public class ItemControllerTest {
 
   @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
   @Test
-  public void givenAUser_whenCreateItemWithMissingPhotoURL_statusIsBadRequestAndAdequateMessage()
+  public void givenAUser_whenCreateItemWithMissingPhotoURL_expectStatusIsBadRequestAndAdequateMessage()
       throws Exception {
 
-    User user = new User();
-    user.setUsername("testUser1");
-    user.setPassword("$2a$10$UMEC8Fal3lDrF4dj9.Rvb.JeyBf2WrYkmOgkqV/Pm4QY6QrTyR2tO");
-    user.setAccount(200);
-    userRepository.save(user);
+    addUser();
 
     ObjectMapper objectMapper = new ObjectMapper();
 
@@ -173,14 +164,10 @@ public class ItemControllerTest {
 
   @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
   @Test
-  public void givenAUser_whenCreateItemWithMissingStartingPrice_statusIsBadRequestAndAdequateMessage()
+  public void givenAUser_whenCreateItemWithMissingStartingPrice_expectStatusIsBadRequestAndAdequateMessage()
       throws Exception {
 
-    User user = new User();
-    user.setUsername("testUser1");
-    user.setPassword("$2a$10$UMEC8Fal3lDrF4dj9.Rvb.JeyBf2WrYkmOgkqV/Pm4QY6QrTyR2tO");
-    user.setAccount(200);
-    userRepository.save(user);
+    addUser();
 
     ObjectMapper objectMapper = new ObjectMapper();
 
@@ -208,14 +195,10 @@ public class ItemControllerTest {
 
   @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
   @Test
-  public void givenAUser_whenCreateItemWithMissingPurchasePrice_statusIsBadRequestAndAdequateMessage()
+  public void givenAUser_whenCreateItemWithMissingPurchasePrice_expectStatusIsBadRequestAndAdequateMessage()
       throws Exception {
 
-    User user = new User();
-    user.setUsername("testUser1");
-    user.setPassword("$2a$10$UMEC8Fal3lDrF4dj9.Rvb.JeyBf2WrYkmOgkqV/Pm4QY6QrTyR2tO");
-    user.setAccount(200);
-    userRepository.save(user);
+    addUser();
 
     ObjectMapper objectMapper = new ObjectMapper();
 
@@ -243,14 +226,10 @@ public class ItemControllerTest {
 
   @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
   @Test
-  public void givenAUser_whenCreateItemWithAllFieldsMissing_statusIsBadRequestAndAdequateMessage()
+  public void givenAUser_whenCreateItemWithAllFieldsMissing_expectStatusIsBadRequestAndAdequateMessage()
       throws Exception {
 
-    User user = new User();
-    user.setUsername("testUser1");
-    user.setPassword("$2a$10$UMEC8Fal3lDrF4dj9.Rvb.JeyBf2WrYkmOgkqV/Pm4QY6QrTyR2tO");
-    user.setAccount(200);
-    userRepository.save(user);
+    addUser();
 
     ObjectMapper objectMapper = new ObjectMapper();
 
@@ -278,14 +257,10 @@ public class ItemControllerTest {
 
   @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
   @Test
-  public void givenAUser_whenCreateItemWithRequestBodyMissing_statusIsBadRequestAndAdequateMessage()
+  public void givenAUser_whenCreateItemWithRequestBodyMissing_expectStatusIsBadRequestAndAdequateMessage()
       throws Exception {
 
-    User user = new User();
-    user.setUsername("testUser1");
-    user.setPassword("$2a$10$UMEC8Fal3lDrF4dj9.Rvb.JeyBf2WrYkmOgkqV/Pm4QY6QrTyR2tO");
-    user.setAccount(200);
-    userRepository.save(user);
+    addUser();
 
     ObjectMapper objectMapper = new ObjectMapper();
 
@@ -308,14 +283,10 @@ public class ItemControllerTest {
 
   @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
   @Test
-  public void givenAUser_whenCreateItemWithInvalidStartingPrice_statusIsBadRequestAndAdequateMessage()
+  public void givenAUser_whenCreateItemWithInvalidStartingPrice_expectStatusIsBadRequestAndAdequateMessage()
       throws Exception {
 
-    User user = new User();
-    user.setUsername("testUser1");
-    user.setPassword("$2a$10$UMEC8Fal3lDrF4dj9.Rvb.JeyBf2WrYkmOgkqV/Pm4QY6QrTyR2tO");
-    user.setAccount(200);
-    userRepository.save(user);
+    addUser();
 
     ObjectMapper objectMapper = new ObjectMapper();
 
@@ -344,14 +315,10 @@ public class ItemControllerTest {
 
   @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
   @Test
-  public void givenAUser_whenCreateItemWithInvalidPurchasePrice_statusIsBadRequestAndAdequateMessage()
+  public void givenAUser_whenCreateItemWithInvalidPurchasePrice_expectStatusIsBadRequestAndAdequateMessage()
       throws Exception {
 
-    User user = new User();
-    user.setUsername("testUser1");
-    user.setPassword("$2a$10$UMEC8Fal3lDrF4dj9.Rvb.JeyBf2WrYkmOgkqV/Pm4QY6QrTyR2tO");
-    user.setAccount(200);
-    userRepository.save(user);
+    addUser();
 
     ObjectMapper objectMapper = new ObjectMapper();
 
@@ -380,14 +347,10 @@ public class ItemControllerTest {
 
   @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
   @Test
-  public void givenAUser_whenCreateItemWithStartingPriceTooLow_statusIsBadRequestAndAdequateMessage()
+  public void givenAUser_whenCreateItemWithStartingPriceTooLow_expectStatusIsBadRequestAndAdequateMessage()
       throws Exception {
 
-    User user = new User();
-    user.setUsername("testUser1");
-    user.setPassword("$2a$10$UMEC8Fal3lDrF4dj9.Rvb.JeyBf2WrYkmOgkqV/Pm4QY6QrTyR2tO");
-    user.setAccount(200);
-    userRepository.save(user);
+    addUser();
 
     ObjectMapper objectMapper = new ObjectMapper();
 
@@ -414,14 +377,10 @@ public class ItemControllerTest {
 
   @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
   @Test
-  public void givenAUser_whenCreateItemWithPurchasePriceTooLow_statusIsBadRequestAndAdequateMessage()
+  public void givenAUser_whenCreateItemWithPurchasePriceTooLow_expectStatusIsBadRequestAndAdequateMessage()
       throws Exception {
 
-    User user = new User();
-    user.setUsername("testUser1");
-    user.setPassword("$2a$10$UMEC8Fal3lDrF4dj9.Rvb.JeyBf2WrYkmOgkqV/Pm4QY6QrTyR2tO");
-    user.setAccount(200);
-    userRepository.save(user);
+    addUser();
 
     ObjectMapper objectMapper = new ObjectMapper();
 
@@ -448,14 +407,10 @@ public class ItemControllerTest {
 
   @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
   @Test
-  public void givenAUser_whenCreateItemWithInvalidPhotoURL_statusIsBadRequestAndAdequateMessage()
+  public void givenAUser_whenCreateItemWithInvalidPhotoURL_expectStatusIsBadRequestAndAdequateMessage()
       throws Exception {
 
-    User user = new User();
-    user.setUsername("testUser1");
-    user.setPassword("$2a$10$UMEC8Fal3lDrF4dj9.Rvb.JeyBf2WrYkmOgkqV/Pm4QY6QrTyR2tO");
-    user.setAccount(200);
-    userRepository.save(user);
+    addUser();
 
     ObjectMapper objectMapper = new ObjectMapper();
 
@@ -482,14 +437,10 @@ public class ItemControllerTest {
 
   @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
   @Test
-  public void givenAUser_whenCreateItem_statusIsOkAndItemDetailsReturned()
+  public void givenAUser_whenCreateItem_expectStatusIsOkAndItemDetailsReturned()
       throws Exception {
 
-    User user = new User();
-    user.setUsername("testUser1");
-    user.setPassword("$2a$10$UMEC8Fal3lDrF4dj9.Rvb.JeyBf2WrYkmOgkqV/Pm4QY6QrTyR2tO");
-    user.setAccount(200);
-    userRepository.save(user);
+    addUser();
 
     ObjectMapper objectMapper = new ObjectMapper();
 
@@ -525,7 +476,7 @@ public class ItemControllerTest {
   @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
   @Test
   @Transactional
-  public void givenAUser_whenItemsListWithoutParameter_statusIsOkAndFirst2SellableItemsWithAdequateDetailsReturned()
+  public void givenAUser_whenItemsListWithoutParameter_expectStatusIsOkAndFirst2SellableItemsWithAdequateDetailsReturned()
       throws Exception {
 
     //region setup
@@ -571,7 +522,7 @@ public class ItemControllerTest {
   @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
   @Test
   @Transactional
-  public void givenAUser_whenItemsListWithParameterPage1_statusIsOkAndFirst2SellableItemsWithAdequateDetailsReturned()
+  public void givenAUser_whenItemsListWithParameterPage1_expectStatusIsOkAndFirst2SellableItemsWithAdequateDetailsReturned()
       throws Exception {
 
     //region setup
@@ -618,7 +569,7 @@ public class ItemControllerTest {
   @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
   @Test
   @Transactional
-  public void givenAUser_whenItemsListWithParameterPage2_statusIsOkAndFirst2SellableItemsWithAdequateDetailsReturned()
+  public void givenAUser_whenItemsListWithParameterPage2_expectStatusIsOkAndFirst2SellableItemsWithAdequateDetailsReturned()
       throws Exception {
 
     //region setup
@@ -662,7 +613,7 @@ public class ItemControllerTest {
   @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
   @Test
   @Transactional
-  public void givenAUser_whenItemsListWithIncorrectParameter_statusIsBadRequestAndAdequateMessageReturned()
+  public void givenAUser_whenItemsListWithIncorrectParameter_expectStatusIsBadRequestAndAdequateMessageReturned()
       throws Exception {
 
     //region setup
@@ -697,7 +648,7 @@ public class ItemControllerTest {
   @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
   @Test
   @Transactional
-  public void givenAUserAndASellableItem_whenItemWithExistingItemId_statusIsOkAndAdequateItemDetailsReturned()
+  public void givenAUserAndASellableItem_whenItemWithExistingItemId_expectStatusIsOkAndAdequateItemDetailsReturned()
       throws Exception {
 
     //region setup
@@ -722,7 +673,7 @@ public class ItemControllerTest {
         .contentType(contentType)
         .content(
             objectMapper.writeValueAsString(
-                new CreateItemRequest("testName1", "testDescription1", "https://testURL1", 20F,
+                new CreateItemRequest("testItem1", "testDescription1", "https://testURL1", 20F,
                     30F))))
         .andExpect(status().isOk());
 
@@ -731,7 +682,7 @@ public class ItemControllerTest {
     mockMvc.perform(get("/item?id=1").header("Authorization", "HW-token " + token))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$", aMapWithSize(6)))
-        .andExpect(jsonPath("name", is("testName1")))
+        .andExpect(jsonPath("name", is("testItem1")))
         .andExpect(jsonPath("description", is("testDescription1")))
         .andExpect(jsonPath("photoUrl", is("https://testURL1")))
         .andExpect(jsonPath("startingPrice", is(20)))
@@ -743,7 +694,7 @@ public class ItemControllerTest {
   @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
   @Test
   @Transactional
-  public void givenAUserAndANotSellableItem_whenItemWithExistingItemId_statusIsOkAndAdequateItemDetailsReturned()
+  public void givenAUserAndANotSellableItem_whenItemWithExistingItemId_expectStatusIsOkAndAdequateItemDetailsReturned()
       throws Exception {
 
     //region setup
@@ -768,7 +719,7 @@ public class ItemControllerTest {
         .contentType(contentType)
         .content(
             objectMapper.writeValueAsString(
-                new CreateItemRequest("testName1", "testDescription1", "https://testURL1", 20F,
+                new CreateItemRequest("testItem1", "testDescription1", "https://testURL1", 20F,
                     30F))))
         .andExpect(status().isOk());
 
@@ -784,7 +735,7 @@ public class ItemControllerTest {
     mockMvc.perform(get("/item?id=1").header("Authorization", "HW-token " + token))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$", aMapWithSize(7)))
-        .andExpect(jsonPath("name", is("testName1")))
+        .andExpect(jsonPath("name", is("testItem1")))
         .andExpect(jsonPath("description", is("testDescription1")))
         .andExpect(jsonPath("photoUrl", is("https://testURL1")))
         .andExpect(jsonPath("startingPrice", is(20)))
@@ -800,7 +751,7 @@ public class ItemControllerTest {
   @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
   @Test
   @Transactional
-  public void givenAUser_whenItemWithIncorrectItemId_statusIsBadRequestAndAdequateMessageReturned()
+  public void givenAUser_whenItemWithIncorrectItemId_expectStatusIsBadRequestAndAdequateMessageReturned()
       throws Exception {
 
     //region setup
