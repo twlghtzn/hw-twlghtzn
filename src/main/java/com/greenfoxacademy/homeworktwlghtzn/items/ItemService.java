@@ -114,8 +114,8 @@ public class ItemService {
       throw new RequestIncorrectException("Page number has to be a positive whole number");
     } else {
       int pageStart = (page - 1) * 2;
-      int pageEnd = pageStart + 2;
-      List<Item> items = itemRepository.findAllSellableItems(pageStart, pageEnd);
+      int itemCount = 2;
+      List<Item> items = itemRepository.findAllSellableItems(pageStart, itemCount);
       for (Item item : items) {
         ItemDto itemDTO = new ItemDto();
         BidDto bidDTO = new BidDto();
