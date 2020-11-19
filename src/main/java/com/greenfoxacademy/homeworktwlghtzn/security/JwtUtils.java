@@ -22,7 +22,7 @@ public class JwtUtils {
   @Value("${HW_KEY}")
   private String jwtSecret;
 
-  @Value("${JWT_EXPIRATION_MS}")
+  @Value("${JWT_EXPIRATION}")
   private int jwtExpirationMs;
 
   public String generateJwtToken(Authentication authentication) {
