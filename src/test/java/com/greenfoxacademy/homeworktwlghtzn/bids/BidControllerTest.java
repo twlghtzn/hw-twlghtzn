@@ -3,6 +3,7 @@ package com.greenfoxacademy.homeworktwlghtzn.bids;
 import static org.hamcrest.Matchers.aMapWithSize;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -50,6 +51,15 @@ public class BidControllerTest {
   }
 
   //endregion
+
+  @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+  @Test
+  public void givenAUser_whenBidWithoutAuthorization_expectStatusUnauthorized()
+      throws Exception {
+
+    mockMvc.perform(get("/bid"))
+        .andExpect(status().isUnauthorized());
+  }
 
   @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
   @Test
@@ -170,6 +180,48 @@ public class BidControllerTest {
                 new BidRequest(1L, 201))))
         .andExpect(status().isBadRequest())
         .andExpect(jsonPath("message", is("You don't have enough money to place the bid")));
+  }
+
+  @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+  @Test
+  public void givenAUserWithEnoughDollars_whenBidWithBidLowerThanStartingPrice_expectStatusIsBadRequestAndAdequateMessage()
+      throws Exception {
+
+    //region setup
+
+    addUser();
+
+    ObjectMapper objectMapper = new ObjectMapper();
+
+    String result =
+        mockMvc.perform(post("/login")
+            .contentType(contentType)
+            .content(
+                objectMapper.writeValueAsString(
+                    new LoginRequest("testUser1", "password1"))))
+            .andExpect(status().isOk())
+            .andReturn().getResponse().getContentAsString();
+
+    LoginResponse loginResponse = objectMapper.readValue(result, LoginResponse.class);
+    String token = loginResponse.getToken();
+
+    mockMvc.perform(post("/items/create").header("Authorization", "HW-token " + token)
+        .contentType(contentType)
+        .content(
+            objectMapper.writeValueAsString(
+                new CreateItemRequest("testItem1", "testDescription1", "https://testURL1", 20F,
+                    30F))))
+        .andExpect(status().isOk());
+
+    //endregion
+
+    mockMvc.perform(post("/bid").header("Authorization", "HW-token " + token)
+        .contentType(contentType)
+        .content(
+            objectMapper.writeValueAsString(
+                new BidRequest(1L, 19))))
+        .andExpect(status().isBadRequest())
+        .andExpect(jsonPath("message", is("Bid is too low")));
   }
 
   @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)

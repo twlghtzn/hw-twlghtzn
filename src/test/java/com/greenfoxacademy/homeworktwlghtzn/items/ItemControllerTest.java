@@ -74,6 +74,15 @@ public class ItemControllerTest {
 
   @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
   @Test
+  public void givenAUser_whenCreateItemWithoutAuthorization_expectStatusUnauthorized()
+      throws Exception {
+
+    mockMvc.perform(post("/items/create"))
+        .andExpect(status().isUnauthorized());
+  }
+
+  @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+  @Test
   public void givenAUser_whenCreateItemWithMissingName_expectStatusIsBadRequestAndAdequateMessage()
       throws Exception {
 
@@ -475,6 +484,15 @@ public class ItemControllerTest {
 
   @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
   @Test
+  public void givenAUser_whenItemsListWithoutAuthorization_expectStatusUnauthorized()
+      throws Exception {
+
+    mockMvc.perform(get("/items/list"))
+        .andExpect(status().isUnauthorized());
+  }
+
+  @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+  @Test
   @Transactional
   public void givenAUser_whenItemsListWithoutParameter_expectStatusIsOkAndFirst2SellableItemsWithAdequateDetailsReturned()
       throws Exception {
@@ -514,7 +532,7 @@ public class ItemControllerTest {
         .andExpect(jsonPath("$.items[0]", aMapWithSize(2)))
         .andExpect(jsonPath("$.items[0].name", is("testItem2")))
         .andExpect(jsonPath("$.items[0].photoUrl", is("https://testURL2")))
-        .andExpect(jsonPath("$.items[0]", aMapWithSize(2)))
+        .andExpect(jsonPath("$.items[1]", aMapWithSize(2)))
         .andExpect(jsonPath("$.items[1].name", is("testItem3")))
         .andExpect(jsonPath("$.items[1].photoUrl", is("https://testURL3")));
   }
@@ -561,7 +579,7 @@ public class ItemControllerTest {
         .andExpect(jsonPath("$.items[0]", aMapWithSize(2)))
         .andExpect(jsonPath("$.items[0].name", is("testItem2")))
         .andExpect(jsonPath("$.items[0].photoUrl", is("https://testURL2")))
-        .andExpect(jsonPath("$.items[0]", aMapWithSize(2)))
+        .andExpect(jsonPath("$.items[1]", aMapWithSize(2)))
         .andExpect(jsonPath("$.items[1].name", is("testItem3")))
         .andExpect(jsonPath("$.items[1].photoUrl", is("https://testURL3")));
   }
@@ -569,7 +587,7 @@ public class ItemControllerTest {
   @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
   @Test
   @Transactional
-  public void givenAUser_whenItemsListWithParameterPage2_expectStatusIsOkAndFirst2SellableItemsWithAdequateDetailsReturned()
+  public void givenAUser_whenItemsListWithParameterPage2_expectStatusIsOkAndThirdSellableItemWithAdequateDetailsReturned()
       throws Exception {
 
     //region setup
@@ -598,6 +616,13 @@ public class ItemControllerTest {
                 new BidRequest(1L, 30))))
         .andExpect(status().isOk());
 
+    mockMvc.perform(post("/bid").header("Authorization", "HW-token " + token)
+        .contentType(contentType)
+        .content(
+            objectMapper.writeValueAsString(
+                new BidRequest(4L, 25))))
+        .andExpect(status().isOk());
+
     //endregion
 
     mockMvc.perform(get("/items/list").header("Authorization", "HW-token " + token)
@@ -605,9 +630,12 @@ public class ItemControllerTest {
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.items").isArray())
         .andExpect(jsonPath("$.items", hasSize(1)))
-        .andExpect(jsonPath("$.items[0]", aMapWithSize(2)))
+        .andExpect(jsonPath("$.items[0]", aMapWithSize(3)))
         .andExpect(jsonPath("$.items[0].name", is("testItem4")))
-        .andExpect(jsonPath("$.items[0].photoUrl", is("https://testURL4")));
+        .andExpect(jsonPath("$.items[0].photoUrl", is("https://testURL4")))
+        .andExpect(jsonPath("$.items[0].lastBid", aMapWithSize(2)))
+        .andExpect(jsonPath("$.items[0].lastBid.sum", is(25)))
+        .andExpect(jsonPath("$.items[0].lastBid.username", is("testUser1")));
   }
 
   @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
@@ -644,6 +672,15 @@ public class ItemControllerTest {
   //endregion
 
   //region list specific item
+
+  @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+  @Test
+  public void givenAUser_whenItemWithoutAuthorization_expectStatusUnauthorized()
+      throws Exception {
+
+    mockMvc.perform(get("/item"))
+        .andExpect(status().isUnauthorized());
+  }
 
   @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
   @Test

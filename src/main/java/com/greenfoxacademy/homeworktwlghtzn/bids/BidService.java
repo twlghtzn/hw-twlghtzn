@@ -32,10 +32,9 @@ public class BidService {
       throw new RequestIncorrectException("Item can't be bought");
     } else if (bidRequest.getBid() > user.getAccount()) {
       throw new RequestIncorrectException("You don't have enough money to place the bid");
-    } else if (bidRequest.getBid() < item.getStartingPrice()) {
-      throw new RequestIncorrectException("Bid is too low");
     } else if (item.getBids().size() > 0 &&
-        bidRequest.getBid() <= item.getBids().get(item.getBids().size() - 1).getSum()) {
+        bidRequest.getBid() <= item.getBids().get(item.getBids().size() - 1).getSum() ||
+        bidRequest.getBid() < item.getStartingPrice()) {
       throw new RequestIncorrectException("Bid is too low");
     } else {
       long createdAt = System.currentTimeMillis();
